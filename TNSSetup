@@ -1,0 +1,20 @@
+When you use sqlplus userName/myPassword@"(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=asdasdasd.com)(PORT=1524))(CONNECT_DATA=(SID=AARCER1)))" then you don't need any tnsnames.ora file.
+
+Your entry in tnsnames.ora file should be like this:
+
+AARCER1 = (DESCRIPTION=
+     (ADDRESS=(PROTOCOL=tcp)(HOST= asdasdasd.com)(PORT=1524))
+    (CONNECT_DATA =
+      (SID = AARCER1)
+    )
+  )
+Then you can shorten your command to sqlplus userName/myPassword@AARCER1 - that is the purpose of tnsnames.ora.
+
+In order to use tnsnames.ora you must also have file sqlnet.ora. There you need an entry like this:
+
+NAMES.DIRECTORY_PATH = (TNSNAMES)
+However, default value is NAMES.DIRECTORY_PATH=(tnsnames, ldap, ezconnect), so actually you can skip it.
+
+Set environment variable TNS_ADMIN to location of these files, i.e.
+
+export TNS_ADMIN=/usr/lib/oracle/11.2/client64/network/admin
